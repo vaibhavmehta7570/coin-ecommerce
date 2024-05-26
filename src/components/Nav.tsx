@@ -14,6 +14,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 
 type Props = {};
 
@@ -174,7 +180,12 @@ const Nav = (props: Props) => {
             </div>
           </DrawerContent>
         </Drawer>
-        <MdAccountCircle className="h-6 w-6" />
+        <Popover>
+          <PopoverTrigger>
+            <MdAccountCircle className="h-6 w-6" />
+          </PopoverTrigger>
+          <PopoverContent>Place content for the popover here.</PopoverContent>
+        </Popover>
       </div>
     </div>
   );
