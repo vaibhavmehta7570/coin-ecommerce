@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
-import CategoryCard from "./CategoryCard";
-import { QueryClient, useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/router";
+import CategoryCard from "./CategoryCard";
 
 type Category = {
   slug: string;
@@ -12,7 +11,7 @@ type Category = {
 
 const fetchCategories = async () => {
   const { data } = await axios.get("https://dummyjson.com/products/categories");
-  console.log("🚀 ~ fetchCategories ~ data:", data);
+
   return data;
 };
 
@@ -26,7 +25,7 @@ const CategoryContainer = () => {
     queryFn: fetchCategories,
   });
 
-  if (isLoading) return <p>Loading categories...</p>;
+  if (isLoading) return <p className="pl-10">Loading categories...</p>;
 
   if (error instanceof Error) return <p>Error: {error.message}</p>;
 
@@ -36,10 +35,8 @@ const CategoryContainer = () => {
         return (
           <a href={`/${category.slug}`} key={category.slug}>
             <CategoryCard
-              imgLink="https://picsum.photos/200"
+              imgLink="https://picsum.photos/250"
               title={category.name}
-              price=""
-              key=""
             />
           </a>
         );
