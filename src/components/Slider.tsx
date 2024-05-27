@@ -24,7 +24,7 @@ const Slider = ({ images }) => {
       nextSlide();
     }, 5000); // Change the interval time as needed (5000 milliseconds = 5 seconds)
     return () => clearInterval(interval);
-  }, [currentIndex]); // Restart the interval whenever currentIndex changes
+  }, [currentIndex, nextSlide]); // Restart the interval whenever currentIndex changes
 
   return (
     <div
