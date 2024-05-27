@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ProductCard from "@/components/home/ProductCard";
 import { Button } from "@/components/ui/button";
+import { Product } from "@/lib/Types";
 
 const Page = () => {
   const [page, setPage] = useState(0); // Track the current page
@@ -20,7 +21,7 @@ const Page = () => {
       );
 
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       throw new Error(error.message);
     }
   };
@@ -42,7 +43,7 @@ const Page = () => {
     <div className="flex w-full h-screen items-center p-10 flex-col">
       {!isLoading && <h1>Searching For {search}</h1>}
       <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
-        {result?.products.map((product) => (
+        {result?.products.map((product: Product) => (
           <div
             className="flex gap-5 p-10 justify-center overflow-auto"
             key={product.id}

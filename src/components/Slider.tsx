@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { CarouselImage, SliderProps } from "@/lib/Types";
 
-const Slider = ({ images }) => {
+const Slider: React.FC<SliderProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Function to handle next slide
@@ -37,23 +38,23 @@ const Slider = ({ images }) => {
         height: "500px", // Set height
       }}
     >
-      {images.map((image, index) => (
+      {images.map((image: CarouselImage, index: number) => (
         <div
           key={index}
           className={index === currentIndex ? "slide active" : "slide"}
           style={{
-            flex: "0 0 auto", // Prevent images from shrinking
-            width: "100vw", // Set full width for each image
+            flex: "0 0 auto",
+            width: "100vw",
             position: "relative",
-            transition: "transform 0.5s ease", // Add transition effect
-            transform: `translateX(-${currentIndex * 100}%)`, // Move slide by current index
+            transition: "transform 0.5s ease",
+            transform: `translateX(-${currentIndex * 100}%)`,
           }}
         >
           <Image
             src={image.src}
             alt={image.alt}
-            layout="fill" // Fill the parent container
-            objectFit="cover" // Maintain aspect ratio and cover whole area
+            layout="fill"
+            objectFit="cover"
           />
         </div>
       ))}

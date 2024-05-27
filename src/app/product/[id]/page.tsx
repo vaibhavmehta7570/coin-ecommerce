@@ -7,6 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import useCartStore from "@/lib/CartStore";
+import { Review } from "@/lib/Types";
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
@@ -56,7 +57,7 @@ export default function ProductPage() {
           width={600}
         />
         <div className="hidden md:grid grid-cols-5 gap-3 justify-items-center w-full">
-          {product?.images.map((img, index) => {
+          {product?.images.map((img: string, index: number) => {
             return (
               <button
                 className="border hover:border-gray-900 rounded-lg overflow-hidden transition-colors dark:hover:border-gray-50"
@@ -139,12 +140,11 @@ export default function ProductPage() {
         <div className="grid gap-6">
           <h2 className="font-bold text-2xl">Reviews</h2>
           <div className="grid gap-6">
-            {product?.reviews.map((review, index) => (
+            {product?.reviews.map((review: Review, index: number) => (
               <div className="flex gap-4" key={index}>
                 <Avatar className="w-10 h-10 border">
-                  <AvatarImage alt={review.author} src={review.avatar} />
                   <AvatarFallback>
-                    {review?.author?.substring(0, 2)}
+                    {review?.reviewerName?.substring(0, 2)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid gap-4">

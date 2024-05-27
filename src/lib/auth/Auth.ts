@@ -32,7 +32,7 @@ export const Login = async (username: string, password: string) => {
     );
 
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     if (axios.isAxiosError(error)) {
       console.error("Login failed:", error.response?.data);
     } else {

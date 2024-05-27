@@ -7,7 +7,7 @@ type ProductCardProps = {
   imgLink: string;
   title: string;
   price: string;
-  productId: string;
+  productId: number;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const removeProduct = useCartStore((state) => state.removeFromCart);
   const cart = useCartStore((state) => state.cart);
   const existingItem = cart.find((item) => {
-    if (item.productId === productId) {
+    if (parseInt(item.productId) === productId) {
       return item;
     }
   });

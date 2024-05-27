@@ -5,6 +5,8 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import ProductCard from "@/components/home/ProductCard";
+import Error from "next/error";
+import { Product } from "@/lib/Types";
 
 const CategoryPage = () => {
   const params = useParams<{ category: string }>();
@@ -18,7 +20,7 @@ const CategoryPage = () => {
         }/?limit=8&skip=${page * 8}`
       );
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error.message);
     }
   };
@@ -44,7 +46,7 @@ const CategoryPage = () => {
       <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
         {isLoading && <div>Loading...</div>}
         {categoryProducts &&
-          categoryProducts.products.map((product) => (
+          categoryProducts.products.map((product: Product) => (
             <div
               className="flex gap-5 p-10 justify-center overflow-auto"
               key={product.id}
