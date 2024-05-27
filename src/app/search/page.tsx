@@ -45,7 +45,7 @@ const Page = () => {
         <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
           {!isLoading && result?.products.length === 0 ? (
             <div className="text-center">
-              <h2>No results found for "{search}"</h2>
+              <h2>No results found for {search}</h2>
             </div>
           ) : (
             result?.products.map((product: Product) => (

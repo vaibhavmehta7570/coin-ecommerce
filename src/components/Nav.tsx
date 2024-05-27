@@ -106,6 +106,7 @@ const Nav = (props: Props) => {
           style={{ caretColor: "transparent" }}
           value={term}
           onChange={(e) => setTerm(e.target.value)}
+          placeholder="Enter Product Name..."
         />
         <button type="submit">
           <FaSearch className="pointer" />
