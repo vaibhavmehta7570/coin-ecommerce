@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,18 +13,15 @@ import { Separator } from "@/components/ui/separator";
 import useCartStore from "@/lib/CartStore";
 import Link from "next/link";
 
-
 export default function page() {
-
-    const cart = useCartStore((state) => state.cart);
-    const totalPrice = () => {
-      let total = 0;
-      cart.forEach((item) => {
-        total += item.quantity * item.price;
-      });
-      console.log(total);
-      return total;
-    };
+  const cart = useCartStore((state) => state.cart);
+  const totalPrice = () => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.quantity * item.price;
+    });
+    return total;
+  };
 
   return (
     <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto my-12 px-4 md:px-0 mt-28">
@@ -74,10 +71,10 @@ export default function page() {
             <Label htmlFor="cvc">CVC</Label>
             <Input id="cvc" placeholder="123" type="text" />
           </div>
-          <Link href={'/checkout/thank-you'}>
-          <Button className="w-full" type="submit" >
-            Place Order
-          </Button>
+          <Link href={"/checkout/thank-you"}>
+            <Button className="w-full" type="submit">
+              Place Order
+            </Button>
           </Link>
         </form>
       </div>
@@ -98,13 +95,15 @@ export default function page() {
             <span>${(totalPrice() + 5).toFixed(2)}</span>
           </div>
           <div className="flex items-center gap-4">
-            {cart.map(item=>{
+            {cart.map((item) => {
               return (
                 <div key={item.productId}>
                   <h3 className="font-medium">{item.productName}</h3>
-                  <p className="text-gray-500 dark:text-gray-400">Quantity: {item.quantity}</p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Quantity: {item.quantity}
+                  </p>
                 </div>
-              )
+              );
             })}
           </div>
         </div>

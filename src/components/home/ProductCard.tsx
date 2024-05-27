@@ -24,7 +24,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       return item;
     }
   });
-  console.log(cart);
 
   return (
     <div className="category-card w-[300px] min-h-[420px] shadow-lg rounded-lg overflow-hidden container mx-auto transition-transform transform hover:scale-105">

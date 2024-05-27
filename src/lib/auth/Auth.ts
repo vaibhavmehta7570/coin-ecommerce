@@ -44,7 +44,6 @@ export const Logout = () => {
   return new Promise<void>((resolve, reject) => {
     try {
       localStorage.removeItem("auth");
-      console.log("Logout successful. Local storage cleared.");
       resolve();
     } catch (error) {
       console.error("Logout failed:", error);

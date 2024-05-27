@@ -63,13 +63,11 @@ const Nav = (props: Props) => {
     cart.forEach((item) => {
       total += item.quantity * item.price;
     });
-    console.log(total);
     return total;
   };
 
   useEffect(() => {
     const authData = localStorage.getItem("auth");
-    console.log("🚀", authData);
     if (authData) {
       const parsedAuthData = JSON.parse(authData);
       setAuthh(true);

@@ -26,15 +26,13 @@ const AuthModal = ({ children }: { children: React.ReactNode }) => {
   const submitData = () => {
     Login(username, password)
       .then((data) => {
-        console.log(data);
-        //  addToken(data?.firstName, data?.image, data?.token);
         if (data) {
           addTokenToLocalStorage(data?.firstName, data?.imgLink, data?.token);
           setAuthh(true);
         }
       })
       .catch((err) => {
-        console.error("Something Went Wrong Please Try Logging in again");
+        console.error("Something Went Wrong Please Try Logging in again", err);
         setAuthh(false);
       });
   };

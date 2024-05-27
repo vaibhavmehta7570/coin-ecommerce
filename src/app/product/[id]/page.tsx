@@ -10,13 +10,11 @@ import useCartStore from "@/lib/CartStore";
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
-  console.log(params);
 
   const addProduct = useCartStore((state) => state.addToCart);
   const removeProduct = useCartStore((state) => state.removeFromCart);
   const cart = useCartStore((state) => state.cart);
   const existingItem = cart.find((item) => {
-    console.log(typeof params.id);
     if (item.productId == params.id) {
       return item;
     }

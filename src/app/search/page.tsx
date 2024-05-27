@@ -18,7 +18,7 @@ const Page = () => {
           page * 8
         }`
       );
-      console.log("🚀 ~ fetchSearches ~ response:", response.data.products);
+
       return response.data;
     } catch (error) {
       throw new Error(error.message);
