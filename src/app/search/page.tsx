@@ -32,14 +32,14 @@ const Page = () => {
     isError,
     isPlaceholderData,
   } = useQuery({
-    queryKey: ["search", page],
+    queryKey: ["search", search, page],
     queryFn: () => fetchSearches(page),
   });
 
-  if (error) return <div>Error: {error.message}</div>;
+  if (isError) return <div>Error: {error.message}</div>;
 
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <div className="flex w-full h-screen items-center p-10 flex-col mt-20">
         {!isLoading && <h1>Searching For {search}</h1>}
         <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
@@ -82,7 +82,7 @@ const Page = () => {
                 }
               }}
               // Disable the Next Page button until we know a next page is available
-              disabled={result?.limit < 8}
+              disabled={result?.products.length < 8}
             >
               Next Page
             </Button>
