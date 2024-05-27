@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useCartStore from "@/lib/CartStore";
+import Link from "next/link";
 
 
 export default function page() {
@@ -73,9 +74,11 @@ export default function page() {
             <Label htmlFor="cvc">CVC</Label>
             <Input id="cvc" placeholder="123" type="text" />
           </div>
-          <Button className="w-full" type="submit">
+          <Link href={'/checkout/thank-you'}>
+          <Button className="w-full" type="submit" >
             Place Order
           </Button>
+          </Link>
         </form>
       </div>
       <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">

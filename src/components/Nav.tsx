@@ -23,6 +23,7 @@ import AuthModal from "./AuthModal";
 import useAuthStore from "@/lib/auth/AuthStore";
 import { useRouter } from "next/navigation";
 import { Logout } from "@/lib/auth/Auth";
+import AddToCart from "./AddToCart";
 
 type Props = {};
 
@@ -153,35 +154,11 @@ const Nav = (props: Props) => {
                             <span>{items.price}</span>
                           </div>
                         </div>
-                        <div className="rounded-lg px-3 w-1/5 py-2 flex justify-around items-center border-2 border-black mx-3">
-                          <span
-                            className="cursor-pointer"
-                            onClick={() =>
-                              removeProduct(
-                                items.productId,
-                                items.productName,
-                                items.price
-                              )
-                            }
-                          >
-                            -
-                          </span>
-                          <span className="font-semibold">
-                            {items.quantity}
-                          </span>
-                          <span
-                            className="cursor-pointer"
-                            onClick={() =>
-                              addProduct(
-                                items.productId,
-                                items.productName,
-                                items.price
-                              )
-                            }
-                          >
-                            +
-                          </span>
-                        </div>
+                        <AddToCart
+                          items={items}
+                          removeFunc={removeProduct}
+                          addFunc={addProduct}
+                        />
                         <div className="text-right font-medium">
                           ${calculateTotalPrice(items.quantity, items.price)}
                         </div>
@@ -202,8 +179,8 @@ const Nav = (props: Props) => {
               </div>
               <div className="mt-4 grid gap-2">
                 {authh ? (
-                  <Link href={"/checkout"}>
-                    <DrawerClose>
+                  <Link href={"/checkout"} className="w-full">
+                    <DrawerClose className="w-full">
                       <Button size="lg" className="w-full">
                         Checkout
                       </Button>

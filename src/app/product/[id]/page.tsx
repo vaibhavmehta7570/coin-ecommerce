@@ -6,10 +6,21 @@ import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import useCartStore from "@/lib/CartStore";
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
   console.log(params);
+
+  const addProduct = useCartStore((state) => state.addToCart);
+  const removeProduct = useCartStore((state) => state.removeFromCart);
+  const cart = useCartStore((state) => state.cart);
+  const existingItem = cart.find((item) => {
+    console.log(typeof params.id);
+    if (item.productId == params.id) {
+      return item;
+    }
+  });
 
   const [thumbnailImage, setThumbnailImage] = useState<string | null>(null); // State to hold the current thumbnail image URL
 
@@ -89,7 +100,41 @@ export default function ProductPage() {
         <div className="grid gap-4">
           <h2 className="font-bold text-2xl">${product?.price}</h2>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Button size="lg">Add to Cart</Button>
+            {existingItem?.quantity ? (
+              <div className="rounded-lg w-2/5 flex justify-around items-center border-2 border-black ">
+                <span
+                  className="cursor-pointer p-2"
+                  onClick={() =>
+                    removeProduct(
+                      product.id,
+                      product.productName,
+                      product.price
+                    )
+                  }
+                >
+                  -
+                </span>
+                <span className="font-semibold">{existingItem.quantity}</span>
+                <span
+                  className="cursor-pointer p-2"
+                  onClick={() =>
+                    addProduct(product.id, product.productName, product.price)
+                  }
+                >
+                  +
+                </span>
+              </div>
+            ) : (
+              <Button
+                variant={"default"}
+                className="w-2/5"
+                onClick={() => {
+                  addProduct(product.id, product.productName, product.price);
+                }}
+              >
+                Add to Cart
+              </Button>
+            )}
           </div>
         </div>
         <Separator />

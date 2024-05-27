@@ -63,6 +63,7 @@ const AuthModal = ({ children }: { children: React.ReactNode }) => {
                 </Label>
                 <Input
                   id="password"
+                  type="password"
                   className="col-span-3"
                   onChange={(e) => setPassword(e.target.value)}
                 />
