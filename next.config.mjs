@@ -8,6 +8,9 @@ const nextConfig = {
       "cdn.dummyjson.com",
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
