@@ -1,6 +1,14 @@
+"use client"
 import Link from "next/link";
-
+import { useEffect } from "react";
+import useCartStore from "@/lib/CartStore";
 export default function Page() {
+
+  const clearCart = useCartStore(state=> state.clearCart)
+
+  useEffect(() => {
+    clearCart()
+  }, [clearCart]);
   return (
     <div className="flex flex-col items-center justify-center min-h-[100dvh] gap-8 px-4 md:px-6">
       <div className="max-w-md text-center space-y-4">
