@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function page() {
+export default function Page() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[100dvh] gap-8 px-4 md:px-6">
       <div className="max-w-md text-center space-y-4">

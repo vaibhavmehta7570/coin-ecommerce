@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import useCartStore from "@/lib/CartStore";
 import Link from "next/link";
 
-export default function page() {
+export default function Page() {
   const cart = useCartStore((state) => state.cart);
   const totalPrice = () => {
     let total = 0;
