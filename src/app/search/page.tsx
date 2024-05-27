@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -19,9 +19,8 @@ const Page = () => {
           page * 8
         }`
       );
-
       return response.data;
-    } catch (error:any) {
+    } catch (error: any) {
       throw new Error(error.message);
     }
   };
@@ -40,47 +39,57 @@ const Page = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex w-full h-screen items-center p-10 flex-col">
-      {!isLoading && <h1>Searching For {search}</h1>}
-      <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
-        {result?.products.map((product: Product) => (
-          <div
-            className="flex gap-5 p-10 justify-center overflow-auto"
-            key={product.id}
-          >
-            <ProductCard
-              imgLink={product?.thumbnail}
-              title={product?.title}
-              price={`$${product.price}`}
-              productId={product.id}
-            />
-          </div>
-        ))}
-      </div>
+    <Suspense>
+      <div className="flex w-full h-screen items-center p-10 flex-col mt-20">
+        {!isLoading && <h1>Searching For {search}</h1>}
+        <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
+          {!isLoading && result?.products.length === 0 ? (
+            <div className="text-center">
+              <h2>No results found for "{search}"</h2>
+            </div>
+          ) : (
+            result?.products.map((product: Product) => (
+              <div
+                className="flex gap-5 p-10 justify-center overflow-auto"
+                key={product.id}
+              >
+                <ProductCard
+                  imgLink={product?.thumbnail}
+                  title={product?.title}
+                  price={`$${product.price}`}
+                  productId={product.id}
+                />
+              </div>
+            ))
+          )}
+        </div>
 
-      <div className="flex gap-5 bottom-0 pt-5 shadow-inner p-2 w-full justify-center">
-        <Button
-          variant={"outline"}
-          onClick={() => setPage((old) => Math.max(old - 1, 0))}
-          disabled={page === 0}
-        >
-          Previous Page
-        </Button>
-        <Button variant={"outline"}> {page + 1}</Button>
-        <Button
-          variant={"outline"}
-          onClick={() => {
-            if (!isPlaceholderData && result.total) {
-              setPage((old) => old + 1);
-            }
-          }}
-          // Disable the Next Page button until we know a next page is available
-          disabled={result?.limit < 8}
-        >
-          Next Page
-        </Button>
+        {result?.products.length > 0 && (
+          <div className="flex gap-5 bottom-0 pt-5 shadow-inner p-2 w-full justify-center">
+            <Button
+              variant={"outline"}
+              onClick={() => setPage((old) => Math.max(old - 1, 0))}
+              disabled={page === 0}
+            >
+              Previous Page
+            </Button>
+            <Button variant={"outline"}> {page + 1}</Button>
+            <Button
+              variant={"outline"}
+              onClick={() => {
+                if (!isPlaceholderData && result.total) {
+                  setPage((old) => old + 1);
+                }
+              }}
+              // Disable the Next Page button until we know a next page is available
+              disabled={result?.limit < 8}
+            >
+              Next Page
+            </Button>
+          </div>
+        )}
       </div>
-    </div>
+    </Suspense>
   );
 };
 

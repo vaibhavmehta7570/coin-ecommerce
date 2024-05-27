@@ -26,7 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   });
 
   return (
-    <div className="category-card w-[300px] min-h-[420px] shadow-lg rounded-lg overflow-hidden container mx-auto transition-transform transform hover:scale-105">
+    <div className="category-card w-[300px] min-h-[420px] max-h-[420px] shadow-lg rounded-lg overflow-hidden container mx-auto transition-transform transform hover:scale-105">
       <Link href={`/product/${productId}`}>
         <img src={imgLink} alt={title} className="w-full h-48 object-cover" />
       </Link>
