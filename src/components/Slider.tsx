@@ -34,7 +34,7 @@ const Slider = ({ images }) => {
         overflow: "hidden", // Hide overflow to prevent scrollbars
         position: "relative",
         width: "100vw", // Set full width
-        height: "300px", // Set height
+        height: "500px", // Set height
       }}
     >
       {images.map((image, index) => (

@@ -3,6 +3,8 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategoryCard from "./CategoryCard";
+import Link from "next/link";
+
 
 type Category = {
   slug: string;
@@ -33,12 +35,12 @@ const CategoryContainer = () => {
     <div className="flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
       {categories?.map((category: any) => {
         return (
-          <a href={`/${category.slug}`} key={category.slug}>
+          <Link href={`/${category.slug}`} key={category.slug}>
             <CategoryCard
               imgLink="https://picsum.photos/250"
               title={category.name}
             />
-          </a>
+          </Link>
         );
       })}
     </div>

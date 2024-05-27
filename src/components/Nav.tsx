@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import { FaSearch } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
@@ -19,13 +19,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
+import AuthModal from "./AuthModal";
+import useAuthStore from "@/lib/auth/AuthStore";
+import { useRouter } from "next/navigation";
+import { Logout } from "@/lib/auth/Auth";
 
 type Props = {};
 
 const Nav = (props: Props) => {
   const [term, setTerm] = useState("");
-
+  const { authh, setAuthh } = useAuthStore();
+  const [profileImage, setProfileImage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const router = useRouter();
   const addProduct = useCartStore((state) => state.addToCart);
   const removeProduct = useCartStore((state) => state.removeFromCart);
   const cart = useCartStore((state) => state.cart);
@@ -51,14 +57,41 @@ const Nav = (props: Props) => {
     return (quantity * price).toFixed(2);
   };
 
-  const totalPrice = ()=>{
-    let total = 0
-    cart.forEach(item=>{
-      total += (item.quantity * item.price)
-    })
-    console.log(total)
-    return total
-  }
+  const totalPrice = () => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.quantity * item.price;
+    });
+    console.log(total);
+    return total;
+  };
+
+  useEffect(() => {
+    const authData = localStorage.getItem("auth");
+    console.log("🚀", authData);
+    if (authData) {
+      const parsedAuthData = JSON.parse(authData);
+      setAuthh(true);
+      setProfileImage(parsedAuthData.imgLink);
+      if (parsedAuthData.firstName) {
+        setFirstName(parsedAuthData.firstName);
+      }
+    } else {
+      setAuthh(false);
+    }
+  }, [setAuthh]);
+
+  const handleLogout = async () => {
+    try {
+      await Logout();
+      //show sucesstoast
+      setAuthh(false);
+      setProfileImage("");
+      router.push("/");
+    } catch (error) {
+      //show error toast
+    }
+  };
 
   return (
     <div className="h-20 fixed z-10 bg-white w-full p-10 top-0 flex justify-between items-center shadow-lg">
@@ -168,7 +201,19 @@ const Nav = (props: Props) => {
                 <span className="font-medium">${totalPrice()}</span>
               </div>
               <div className="mt-4 grid gap-2">
-                <Button size="lg">Checkout</Button>
+                {authh ? (
+                  <Link href={"/checkout"}>
+                    <DrawerClose>
+                      <Button size="lg" className="w-full">
+                        Checkout
+                      </Button>
+                    </DrawerClose>
+                  </Link>
+                ) : (
+                  <AuthModal>
+                    <Button className="outline w-full">Checkout</Button>
+                  </AuthModal>
+                )}
                 <Link href={"/"} className="w-full">
                   <DrawerClose className="w-full">
                     <Button size="lg" variant="outline" className="w-full">
@@ -182,9 +227,28 @@ const Nav = (props: Props) => {
         </Drawer>
         <Popover>
           <PopoverTrigger>
-            <MdAccountCircle className="h-6 w-6" />
+            {authh ? (
+              <img
+                src={profileImage}
+                alt="profile"
+                className="h-6 w-6 rounded-3xl"
+              />
+            ) : (
+              <MdAccountCircle className="h-6 w-6" />
+            )}
           </PopoverTrigger>
-          <PopoverContent>Place content for the popover here.</PopoverContent>
+          <PopoverContent className="flex justify-center w-fit">
+            {authh ? (
+              <div className="flex flex-col gap-2 justify-center">
+                <div> welcome, {firstName}</div>
+                <Button onClick={handleLogout}>Log Out</Button>
+              </div>
+            ) : (
+              <AuthModal>
+                <Button className="outline">Sign In</Button>
+              </AuthModal>
+            )}
+          </PopoverContent>
         </Popover>
       </div>
     </div>

@@ -16,14 +16,14 @@ interface LoginRequest {
   password: string;
 }
 
-export const Login = async ({username, password}:LoginRequest): Promise<void> => {
+export const Login = async (username: string, password: string) => {
   const loginData: LoginRequest = {
     username,
     password,
   };
 
   try {
-    const response: AxiosResponse<LoginResponse> = await axios.post(
+    const response = await axios.post(
       "https://dummyjson.com/auth/login",
       loginData,
       {
@@ -31,7 +31,7 @@ export const Login = async ({username, password}:LoginRequest): Promise<void> =>
       }
     );
 
-    console.log("Login successful:", response.data);
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Login failed:", error.response?.data);
@@ -40,5 +40,15 @@ export const Login = async ({username, password}:LoginRequest): Promise<void> =>
     }
   }
 };
-
-
+export const Logout = () => {
+  return new Promise<void>((resolve, reject) => {
+    try {
+      localStorage.removeItem("auth");
+      console.log("Logout successful. Local storage cleared.");
+      resolve();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      reject(error);
+    }
+  });
+};
