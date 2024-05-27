@@ -139,31 +139,36 @@ const Nav = (props: Props) => {
             <div className="flex-1 overflow-y-auto p-4">
               <div className="grid gap-4">
                 {cart.length > 0 ? (
-                  cart.map((items) => {
-                    return (
-                      <div
-                        className="grid justify-items-center grid-cols-[auto_1fr_auto] items-center gap-4"
-                        key={items.productId}
-                      >
-                        <div className="grid gap-1">
-                          <h4 className="font-medium">{items.productName}</h4>
-                          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span>Quantity: {items.quantity}</span>
-                            <span>·</span>
-                            <span>{items.price}</span>
-                          </div>
+                  cart.map((items) => (
+                    <div
+                      className="flex items-center justify-between gap-4"
+                      key={items.productId}
+                    >
+                      <div className="truncate max-w-xs">
+                        <h4
+                          className="font-medium truncate"
+                          style={{ maxWidth: "150px" }}
+                        >
+                          {items.productName}
+                        </h4>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <span>Quantity: {items.quantity}</span>
+                          <span>·</span>
+                          <span>{items.price}</span>
                         </div>
+                      </div>
+                      <div className="flex-grow flex justify-center">
                         <AddToCart
                           items={items}
                           removeFunc={removeProduct}
                           addFunc={addProduct}
                         />
-                        <div className="text-right font-medium">
-                          ${calculateTotalPrice(items.quantity, items.price)}
-                        </div>
                       </div>
-                    );
-                  })
+                      <div className="text-right font-medium">
+                        ${calculateTotalPrice(items.quantity, items.price)}
+                      </div>
+                    </div>
+                  ))
                 ) : (
                   <h3 className="text-center">
                     empty cart looks a bit off, shop and fill it up
@@ -201,6 +206,7 @@ const Nav = (props: Props) => {
             </div>
           </DrawerContent>
         </Drawer>
+
         <Popover>
           <PopoverTrigger>
             {authh ? (

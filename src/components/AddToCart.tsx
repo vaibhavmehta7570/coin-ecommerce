@@ -15,10 +15,7 @@ type Props = {
 const AddToCart = ({ items, addFunc, removeFunc, style }: Props) => {
   return (
     <div
-      className={
-        style +
-        " rounded-lg px-3 w-2/5 py-2 flex justify-around items-center border-2 border-black mx-3 "
-      }
+      className={`${style} flex justify-between items-center w-32 border-2 border-black rounded-lg px-3 py-2 mx-3`}
     >
       <span
         className="cursor-pointer"

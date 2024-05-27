@@ -7,7 +7,7 @@ import ProductCard from "@/components/home/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/Types";
 
-const Page = () => {
+const SearchContent = () => {
   const [page, setPage] = useState(0); // Track the current page
   const searchParams = useSearchParams();
   const search = searchParams.get("find");
@@ -39,58 +39,62 @@ const Page = () => {
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="flex w-full h-screen items-center p-10 flex-col mt-20">
-        {!isLoading && <h1>Searching For {search}</h1>}
-        <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
-          {!isLoading && result?.products.length === 0 ? (
-            <div className="text-center">
-              <h2>No results found for {search}</h2>
-            </div>
-          ) : (
-            result?.products.map((product: Product) => (
-              <div
-                className="flex gap-5 p-10 justify-center overflow-auto"
-                key={product.id}
-              >
-                <ProductCard
-                  imgLink={product?.thumbnail}
-                  title={product?.title}
-                  price={`$${product.price}`}
-                  productId={product.id}
-                />
-              </div>
-            ))
-          )}
-        </div>
-
-        {result?.products.length > 0 && (
-          <div className="flex gap-5 bottom-0 pt-5 shadow-inner p-2 w-full justify-center">
-            <Button
-              variant={"outline"}
-              onClick={() => setPage((old) => Math.max(old - 1, 0))}
-              disabled={page === 0}
-            >
-              Previous Page
-            </Button>
-            <Button variant={"outline"}> {page + 1}</Button>
-            <Button
-              variant={"outline"}
-              onClick={() => {
-                if (!isPlaceholderData && result.total) {
-                  setPage((old) => old + 1);
-                }
-              }}
-              // Disable the Next Page button until we know a next page is available
-              disabled={result?.products.length < 8}
-            >
-              Next Page
-            </Button>
+    <div className="flex w-full h-screen items-center p-10 flex-col mt-20">
+      {!isLoading && <h1>Searching For {search}</h1>}
+      <div className="w-full flex flex-wrap gap-5 p-10 h-full justify-center overflow-auto">
+        {!isLoading && result?.products.length === 0 ? (
+          <div className="text-center">
+            <h2>No results found for {search}</h2>
           </div>
+        ) : (
+          result?.products.map((product: Product) => (
+            <div
+              className="flex gap-5 p-10 justify-center overflow-auto"
+              key={product.id}
+            >
+              <ProductCard
+                imgLink={product?.thumbnail}
+                title={product?.title}
+                price={`$${product.price}`}
+                productId={product.id}
+              />
+            </div>
+          ))
         )}
       </div>
-    </Suspense>
+
+      {result?.products.length > 0 && (
+        <div className="flex gap-5 bottom-0 pt-5 shadow-inner p-2 w-full justify-center">
+          <Button
+            variant={"outline"}
+            onClick={() => setPage((old) => Math.max(old - 1, 0))}
+            disabled={page === 0}
+          >
+            Previous Page
+          </Button>
+          <Button variant={"outline"}> {page + 1}</Button>
+          <Button
+            variant={"outline"}
+            onClick={() => {
+              if (!isPlaceholderData && result.total) {
+                setPage((old) => old + 1);
+              }
+            }}
+            // Disable the Next Page button until we know a next page is available
+            disabled={result?.products.length < 8}
+          >
+            Next Page
+          </Button>
+        </div>
+      )}
+    </div>
   );
 };
+
+const Page = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SearchContent />
+  </Suspense>
+);
 
 export default Page;
